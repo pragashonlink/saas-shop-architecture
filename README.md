@@ -7,7 +7,7 @@ Site should be accessible via desktop and mobile view - This will address by mak
 
 Product search should be able to handle 5000 TPS 
     Set the correct resources for the container as shown below,
-    `
+    ```json
     spec:
         containers:
             - name: example
@@ -19,9 +19,9 @@ Product search should be able to handle 5000 TPS
                 requests:
                     cpu: 200m
                     memory: 256Mi
-    `
+    ```
     Setup liveness and readiness probe so that the k8s cluster can hit the actuator health end point and automatically manage in case of unresponsiveness.
-    `
+    ```json
     livenessProbe:
         httpGet:
             path: /actuator/health/liveness
@@ -34,9 +34,9 @@ Product search should be able to handle 5000 TPS
             port: 8080
         initialDelaySeconds: 10
         periodSeconds: 5
-    `
+    ```
     Set up Horizontal Pod Autoscaler in the cluster to automatically up/down pods based on CPU or memory utilization
-    `
+    ```json
     apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     metadata:
@@ -55,4 +55,4 @@ Product search should be able to handle 5000 TPS
         target:
             type: Utilization
             averageUtilization: 70
-    `   
+    ```
