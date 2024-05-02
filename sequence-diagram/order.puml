@@ -26,21 +26,9 @@ group Process pending order
         }]
     end note
 
-    loop number_of_products times
-        order -> kafka : Trigger ProductAddedToOrder event
-        note left
-            {
-                order_id: number,
-                product_id: number,
-                quantity: number
-            }
-        end note
-    end
+    product -> order : Return status
 
-    kafka -> product : Consume event ProductAddedToOrder
-    product -> product : Check available quantity of product
-    product -> kafka : Produce event SufficientInventoryAvailable
-
+    kafka -> product : Consume event OrderReadyForShipment
 end
 
 @enduml

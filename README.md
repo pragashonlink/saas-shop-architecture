@@ -101,3 +101,34 @@ The application has two roles admin, end-customer. The admin have a dedicated ad
 - Deliver in-app notifications
 
 ![Notification Service Container Diagram](container-diagram/container-diagram-notification-service.png)
+
+## Payment Service
+
+### Features
+- Create payment intent
+- Emit payment status event
+- Store payment details
+
+![Payment Service Container Diagram](container-diagram/container-diagram-payment-service.png)
+
+# Sequence Diagram
+
+## Search filter products
+
+![Search products sequence diagram](sequence-diagram/search-filter-products.png)
+
+## Add to cart
+
+![Add to cart sequence diagram](sequence-diagram/add-to-cart.png)
+
+## Checkout
+
+![Checkout sequence diagram](sequence-diagram/checkout.png)
+
+## Payment integration
+
+![Payment sequence diagram](sequence-diagram/stripe-payment-integration.png)
+
+## Order
+
+![Order sequence diagram](sequence-diagram/order.png)
