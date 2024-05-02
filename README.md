@@ -6,7 +6,7 @@ Saas has an admin and a public website. The public website is mobile friendly. T
 Site should be accessible via desktop and mobile view - This will address by making the website responsive hence, it will give the mobile users a seamless experience. Also, it saves us time and cost.
 
 Product search should be able to handle 5000 TPS 
-    Set the correct resources for the container as shown below,
+    - Set the correct resources for the container as shown below,
     ```json
     spec:
         containers:
@@ -20,7 +20,7 @@ Product search should be able to handle 5000 TPS
                     cpu: 200m
                     memory: 256Mi
     ```
-    Setup liveness and readiness probe so that the k8s cluster can hit the actuator health end point and automatically manage in case of unresponsiveness.
+    - Setup liveness and readiness probe so that the k8s cluster can hit the actuator health end point and automatically manage in case of unresponsiveness.
     ```json
     livenessProbe:
         httpGet:
@@ -35,7 +35,7 @@ Product search should be able to handle 5000 TPS
         initialDelaySeconds: 10
         periodSeconds: 5
     ```
-    Set up Horizontal Pod Autoscaler in the cluster to automatically up/down pods based on CPU or memory utilization
+    - Set up Horizontal Pod Autoscaler in the cluster to automatically up/down pods based on CPU or memory utilization
     ```json
     apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
