@@ -1,0 +1,87 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Customer as customer
+participant "Saas Shop SPA" as spa
+participant "API Gateway" as apiGateway
+participant "Order service" as orderService
+participant "Delivery service" as deliveryService
+participant "Payment service" as paymentService
+participant Stripe as stripe
+database "Payment Db" as paymentDb
+database "Order Db" as orderDb
+database "Delivery Db" as deliveryDb
+database "Event Bus" as kafka
+
+customer -> spa : Click checkout cart action
+
+group Pending Order
+    spa -> apiGateway : Create a "pending" order
+    note left
+        url - od/api/v1/orders
+        method - POST
+        json - {
+            items: [{
+                id: UUID,
+                quantity: int,
+                price: double
+            }]
+        }
+    end note
+    apiGateway -> orderService : Create a "pending" order
+    orderService -> orderDb : Store order details in Db
+    orderService --> apiGateway : Return orderId
+    apiGateway --> spa : Return orderId
+end group
+
+group Delivery Details
+    spa -> spa : Capture Delivery Details
+    spa -> apiGateway : Create delivery record
+    note left
+        url - od/api/v1/deliveries
+        method - POST
+        json - {
+            orderId: int,
+            deliveryAddress: {
+                address: string,
+                postcode: string,
+                city: string
+            }
+        }
+    end note
+    apiGateway -> deliveryService : Create delivery record
+    deliveryService -> deliveryDb : Store delivery details to Db
+end group
+
+group Start payment with stripe
+
+    spa -> paymentService : Create stripe payment intent
+    paymentService -> paymentDb : Store payment details to database
+    note left
+        {
+            order_id: number,
+            order_amount: decimal,
+            transaction_id: uuid
+        }
+    end note
+    paymentService --> spa : return ClientSecret
+
+    spa -> stripe : Capture Payment Details (CC/Debit Card/Digital Wallet details)
+    stripe --> spa : Call the callback payment screen
+    note left
+        Show either success or unsuccessful screen based on response from Stripe
+    end note
+
+    stripe -> paymentService : Call the payment service webhook
+    paymentService -> kafka : Trigger event PaymentCompletedEvent
+    note left
+        {
+            order_id: number,
+            amount: 1000,
+            status: 'success' || 'failure'
+        }
+    end note
+
+end group
+
+@enduml

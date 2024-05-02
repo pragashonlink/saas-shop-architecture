@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Customer as customer
+participant "Saas Shop SPA" as spa
+participant "API Gateway" as gateway
+participant "Auth Service" as authentication
+participant "Cart Service" as cart
+participant "Product Catalog Service" as product
+database "Shopping Cart DB" as cartDb
+database "Event Bus" as kafka
+
+customer -> spa : Click "Add To Cart" button of a product
+spa -> gateway : call POST /sc/api/v1/carts
+
+group Authorization flow
+    gateway --> spa : return 401, redirect to authentication service
+    spa -> authentication : Redirect to authentication service along with code challenge
+    authentication --> spa : return authorization code
+    spa -> authentication : exchange authorization code with code verifier
+    authentication --> spa : return identity token, access token
+end
+
+spa -> gateway : call POST /sc/api/v1/carts
+note left
+    {
+        itemId: UUID,
+        quantity: 2
+    }
+end note
+gateway -> cart : Add item to cart
+
+group Product Lookup
+    cart -> product : Look up product, GET api/v1/products/[product_id]
+    product --> cart : JSON response of product
+    note left
+        Check sufficient quantity of item is available if not fail adding to cart
+    end note
+end
+
+cart -> cartDb : Save item to cart
+cart -> kafka : Publish ItemAddedToCartEvent
+
+cart --> gateway : return 200
+gateway --> spa : return 200
+
+@enduml

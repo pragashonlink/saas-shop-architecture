@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Customer as customer
+participant "Saas Shop SPA" as spa
+participant "API Gateway" as gateway
+participant "Product Service" as product
+database "Product Index DB" as elasticSearch
+database "Product DB" as productDb
+
+customer -> spa : Enter keyword for product
+spa -> gateway : call POST /ps/api/v1/products/searches?q=[keyword]
+gateway -> product : call POST /api/v1/products/searches?q=[keyword]
+
+group Perform keyword search
+    product -> elasticSearch : fetch product ids filtered by [keyword]
+    return product ids
+end
+
+group Fetch products filtered
+    product -> productDb : fetch products by product ids and apply filters
+    return products
+end
+
+product --> gateway : return products
+gateway --> spa : list products
+
+@enduml

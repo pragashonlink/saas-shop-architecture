@@ -1,0 +1,32 @@
+Functional Requirements
+
+  Product Catalog
+    - Filter products using predefined filters
+    - Free text search for the products
+    - Paginated results
+
+  Manage Product Filters tags
+    - CRUD
+
+  Cart
+    - Add/Remove from/to cart
+    - Save cart for later
+
+  Payments
+    - Pay using multiple methods (credit card, debit card, digital wallets)
+
+  Admin View
+    - Manage products
+    - Manage filtering tags to products
+    - Update product inventory count
+    - Enable/Disable products appearing to customers
+    - View purchase reports
+    - Notifications on low inventory
+
+Non-Functional Requirements
+
+  - Site should be accessible via desktop and mobile view - Should be responsive
+  - Product search should be able to handle 5000 TPS
+  - Cart functionality should be able to handle 1000 TPS
+  - Purchasing funcationality should be able to handle 250 TPS
+  

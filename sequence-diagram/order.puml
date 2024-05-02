@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "Order service" as order
+participant "Product Catalog Service" as product
+database "Order Db" as orderDb
+database "Event Bus" as kafka
+
+group Process pending order
+
+    order -> kafka : Consume PaymentCompleted Event
+    note left
+        {
+            order_id: number,
+            amount: 1000,
+            status: 'success'
+        }
+    end note
+    order -> orderDb : Fetch order details from the order db
+
+    order -> product : Update inventory in hand
+    note left
+        products: [{
+            product_id: number,
+            quantity: number
+        }]
+    end note
+
+    loop number_of_products times
+        order -> kafka : Trigger ProductAddedToOrder event
+        note left
+            {
+                order_id: number,
+                product_id: number,
+                quantity: number
+            }
+        end note
+    end
+
+    kafka -> product : Consume event ProductAddedToOrder
+    product -> product : Check available quantity of product
+    product -> kafka : Produce event SufficientInventoryAvailable
+
+end
+
+@enduml

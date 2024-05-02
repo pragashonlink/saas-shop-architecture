@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Customer as customer
+participant "Saas Shop SPA" as spa
+participant "API Gateway" as apiGateway
+participant "Payment service" as paymentService
+participant Stripe as stripe
+database "Payment Db" as paymentDb
+database "Event Bus" as kafka
+
+group Start payment with stripe
+    spa -> apiGateway : Create stripe payment intent
+    apiGateway -> paymentService : Create stripe payment intent
+    paymentService -> paymentDb : Store payment details to database
+    note left
+        {
+            order_id: number,
+            order_amount: decimal,
+            transaction_id: uuid
+        }
+    end note
+    paymentService --> spa : return ClientSecret
+
+    spa -> stripe : Capture Payment Details (CC/Debit Card/Digital Wallet details)
+    stripe --> spa : Call the callback payment screen
+    note left
+        Show either success or failure screen based on response from Stripe
+    end note
+
+    stripe -> paymentService : Call the payment service webhook
+    paymentService -> kafka : Trigger event PaymentCompletedEvent
+    note left
+        {
+            order_id: number,
+            amount: decimal,
+            status: 'success'
+        }
+    end note
+
+end group
+
+
+@enduml
