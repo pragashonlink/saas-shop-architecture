@@ -26,9 +26,9 @@ group Process pending order
         }]
     end note
 
-    product -> order : Return status
+    product --> order : Return status
 
-    kafka -> product : Consume event OrderReadyForShipment
+    order -> kafka : Publish event OrderReadyForShipment
 end
 
 @enduml
