@@ -51,6 +51,11 @@ The application has two roles admin, end-customer. The admin have a dedicated ad
 
 ![Payment Service Container Diagram](container-diagram/container-diagram-payment-service.png)
 
+## Reporting Service
+
+![Reporting Service Container Diagram](container-diagram/container-diagram-reporting-service.png)
+
+
 # Sequence Diagram
 
 ## Search filter products
@@ -72,6 +77,7 @@ The application has two roles admin, end-customer. The admin have a dedicated ad
 ## Order
 
 ![Order sequence diagram](sequence-diagram/order.png)
+
 
 # Non Functional Requirements
 - Site should be accessible via desktop and mobile view - This will address by making the website responsive hence, it will give the mobile users a seamless experience. Also, it saves us time and cost.
