@@ -75,7 +75,7 @@ The application has two roles admin, end-customer. The admin have a dedicated ad
 
 # Non Functional Requirements
 - Site should be accessible via desktop and mobile view - This will address by making the website responsive hence, it will give the mobile users a seamless experience. Also, it saves us time and cost.
-
+- Should be able to identify related logs using a trace id / correlation id
 - Product search should be able to handle 5000 TPS
 - Cart functionality should be able to handle 1000 TPS
 - Purchasing functionality should be able to handle 250 TPS
