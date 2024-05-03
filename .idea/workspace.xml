@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d470cf5-95f3-4218-a579-a2510d49455b" name="Changes" comment="[NDISPCP-] Description&#10;Co-authored-by: dev-name&lt;name@thoughtworks.com&gt;">
-      <change beforePath="$PROJECT_DIR$/sequence-diagram/order.puml" beforeDir="false" afterPath="$PROJECT_DIR$/sequence-diagram/order.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sequence-diagram/checkout.puml" beforeDir="false" afterPath="$PROJECT_DIR$/sequence-diagram/checkout.puml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

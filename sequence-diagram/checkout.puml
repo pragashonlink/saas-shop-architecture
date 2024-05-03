@@ -69,10 +69,10 @@ group Start payment with stripe
     spa -> stripe : Capture Payment Details (CC/Debit Card/Digital Wallet details)
     stripe --> spa : Call the callback payment screen
     note left
-        Show either success or unsuccessful screen based on response from Stripe
+        Show either success screen based on Stripe response
     end note
 
-    stripe -> paymentService : Call the payment service webhook
+    stripe --> paymentService : Call the payment service webhook
     paymentService -> kafka : Trigger event PaymentCompletedEvent
     note left
         {
