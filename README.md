@@ -5,9 +5,9 @@ Saas has an admin and a public website. The public website is mobile friendly. T
 # Non Functional Requirements
 Site should be accessible via desktop and mobile view - This will address by making the website responsive hence, it will give the mobile users a seamless experience. Also, it saves us time and cost.
 
-Product search should be able to handle 5000 TPS 
-Cart functionality should be able to handle 1000 TPS 
-Purchasing functionality should be able to handle 250 TPS
+- Product search should be able to handle 5000 TPS 
+- Cart functionality should be able to handle 1000 TPS 
+- Purchasing functionality should be able to handle 250 TPS
 
     - Set the correct resources for the container as shown below,
     ```json
@@ -132,3 +132,31 @@ The application has two roles admin, end-customer. The admin have a dedicated ad
 ## Order
 
 ![Order sequence diagram](sequence-diagram/order.png)
+
+# Cross cutting concerns
+
+## Logging and metrics
+
+### All the logs should be aggregated using FluentD/Fluentbit to Elasticsearch and viewable through a Kibana Dashboard
+### The health metrics of all the pods should be viewable through a Grafana dashboard
+
+## Security
+
+### CSRF validation
+### CORS policy
+### https
+### MTLS (k8s service to service communication)
+
+# CI / CD
+
+## CI Pipeline
+
+### Each service should have it's own CI pipeline
+### The CI pipeline should run with Sonar scan, Owasp dependency checker, unit tests
+### The built artifact should be uploaded to a registry (ECR)
+
+## CD Pipeline
+
+### Each service should it's own CD pipeline
+### Should be able to deploy a specific version of the build to an environment
+### Should be able to reverse deployments
